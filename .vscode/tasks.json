@@ -1,0 +1,52 @@
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe build active file",
+            "command": "g++",
+            "args": [
+                "-std=c++11",
+                "-g",
+                "main.cpp",
+                "src/AVLTree.cpp",
+                "src/HashTable.cpp",
+                "src/Dictionary.cpp",
+                "src/History.cpp",
+                "src/Utils.cpp",
+                "-o",
+                "main.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build TuDienAnhViet",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++11",
+                "-g",
+                "main.cpp",
+                "src/AVLTree.cpp",
+                "src/HashTable.cpp",
+                "src/Dictionary.cpp",
+                "src/History.cpp",
+                "src/Utils.cpp",
+                "-o",
+                "main.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}
