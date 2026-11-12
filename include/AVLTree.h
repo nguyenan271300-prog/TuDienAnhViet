@@ -1,48 +1,62 @@
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
 
-#include "Word.h"
 #include <string>
-#include <vector>
-using namespace std;
+#include "Word.h"
 
-struct AVLNode {
-    Word data;
-    int height;
-    AVLNode* left;
-    AVLNode* right;
-
-    AVLNode(const Word& value) : data(value), height(1), left(NULL), right(NULL) {}
-};
-
+// Cay AVL luu tu dien: english la khoa, vietnamese la nghia.
 class AVLTree {
 private:
-    AVLNode* root;
+    struct Node {
+        Word data;
+        Node* left;
+        Node* right;
+        int height;
 
-    int getHeight(AVLNode* p);
-    int getBalance(AVLNode* p);
-    void updateHeight(AVLNode* p);
-    AVLNode* rotateRight(AVLNode* y);
-    AVLNode* rotateLeft(AVLNode* x);
-    AVLNode* balanceNode(AVLNode* p);
-    AVLNode* insertNode(AVLNode* p, const Word& value, bool& inserted);
-    AVLNode* minNode(AVLNode* p);
-    AVLNode* deleteNode(AVLNode* p, const string& key, bool& deleted);
-    AVLNode* searchNode(AVLNode* p, const string& key, long long* comparisons);
-    void prefixNode(AVLNode* p, const string& prefix, vector<Word>& result);
-    void collectNode(AVLNode* p, vector<Word>& result);
-    void destroy(AVLNode* p);
+        explicit Node(const Word& word);
+    };
+
+    Node* root;
+    int nodeCount;
+
+    static int heightOf(const Node* node);
+    static int balanceFactor(const Node* node);
+    static void updateHeight(Node* node);
+
+    static Node* rotateRight(Node* y);
+    static Node* rotateLeft(Node* x);
+    static Node* rebalance(Node* node);
+
+    static std::string normalize(const std::string& text);
+    static Node* insertNode(Node* node, const Word& word, bool& inserted);
+    static Node* findNode(Node* node, const std::string& english);
+    static Node* minNode(Node* node);
+    static Node* removeNode(Node* node, const std::string& english, bool& removed);
+    static void printInOrder(const Node* node);
+    static void destroy(Node* node);
 
 public:
     AVLTree();
     ~AVLTree();
 
-    bool insert(const Word& value);
-    bool remove(const string& key);
-    bool search(const string& key, Word& result, long long* comparisons = NULL);
-    bool update(const Word& value);
-    void prefixSearch(const string& prefix, vector<Word>& result);
-    void getAll(vector<Word>& result);
+    // Khong cho copy de tranh hai cay cung quan ly mot vung nho.
+    AVLTree(const AVLTree&) = delete;
+    AVLTree& operator=(const AVLTree&) = delete;
+
+    // Them tu moi. Neu tu da co, cap nhat nghia tieng Viet.
+    void insert(const Word& word);
+
+    // Tra ve con tro den Word neu tim thay, nguoc lai tra ve nullptr.
+    const Word* search(const std::string& english) const;
+
+    // Xoa tu theo tieng Anh. Tra ve true neu xoa thanh cong.
+    bool remove(const std::string& english);
+
+    // Duyet LNR: hien thi tu theo thu tu alphabet.
+    void displayInOrder() const;
+
+    int size() const;
+    bool isEmpty() const;
     void clear();
 };
 
